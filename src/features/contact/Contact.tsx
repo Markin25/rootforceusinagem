@@ -118,7 +118,7 @@ export default function Contact() {
     setSending(true);
     setApiError(null);
     try {
-      const res = await fetch('/api/contato', {
+      const res = await fetch('https://rootforce-api.onrender.com/api/contato', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // Include honeypot field — backend silently rejects if non-empty
