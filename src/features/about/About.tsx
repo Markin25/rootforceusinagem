@@ -33,7 +33,7 @@ const features = [
   },
   {
     title: 'Tecnologia',
-    desc: 'Edgecam, Powermill e processos CAM.',
+    desc: 'Tecnologia aplicada à usinagem CNC e manufatura de alta precisão.',
     Icon: Cpu,
   },
   {

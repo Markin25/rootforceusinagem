@@ -30,7 +30,7 @@ const portfolioItems = [
   { id: 1, src: peca1, title: 'Fresamento CNC' },
   { id: 2, src: peca2, title: 'Componente Industrial' },
   { id: 3, src: peca3, title: 'Fresamento CNC' },
-  { id: 4, src: peca4, title: 'Protótipo' },
+  { id: 4, src: peca4, title: 'Estampo' },
   { id: 5, src: peca5, title: 'Fresamento CNC' },
   { id: 6, src: peca6, title: 'Componente Industrial' },
   { id: 7, src: peca7, title: 'Série' },
