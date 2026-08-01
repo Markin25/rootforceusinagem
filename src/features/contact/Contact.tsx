@@ -9,6 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 type FormState = { name: string; email: string; phone: string; message: string };
 
+// Set VITE_API_URL in the Vercel project (or .env.local for dev) to point at
+// wherever the backend is deployed. Falls back to the current Render instance.
+const API_URL = import.meta.env.VITE_API_URL ?? 'https://rootforce-api.onrender.com/api/contato';
+
 const contactInfo = [
   {
     Icon: MapPin,
@@ -118,7 +122,7 @@ export default function Contact() {
     setSending(true);
     setApiError(null);
     try {
-      const res = await fetch('https://rootforce-api.onrender.com/api/contato', {
+      const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // Include honeypot field — backend silently rejects if non-empty

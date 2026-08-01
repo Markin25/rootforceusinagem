@@ -88,7 +88,7 @@ export default function Careers() {
           <Button
             size="lg"
             className="gap-2"
-            onClick={() => window.location.href = 'mailto:vagas@rootforce.com?subject=Currículo - Oportunidade de trabalho'}
+            onClick={() => window.location.href = 'mailto:producao@rootforceusinagem.com.br?subject=Currículo - Oportunidade de trabalho'}
           >
             <Send className="w-4 h-4" />
             Enviar currículo por email

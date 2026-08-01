@@ -65,7 +65,7 @@ export const splitTextIntoLines = (element: HTMLElement): HTMLSpanElement[] => {
   element.innerHTML = '';
   const spans: HTMLSpanElement[] = [];
   
-  lines.forEach((line, index) => {
+  lines.forEach((line) => {
     const span = document.createElement('span');
     span.innerHTML = line;
     span.style.display = 'block';

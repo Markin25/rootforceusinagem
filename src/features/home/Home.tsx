@@ -7,7 +7,7 @@ import Button from '@ui/Button';
 import ServicesPortfolio from '@features/services/ServicesPortfolio';
 import About from '@features/about/About';
 import Contact from '@features/contact/Contact';
-// import Careers from '@features/careers/Careers';
+// import Careers from '@features/careers/Careers'; // pronto, mas ainda não vai ao ar
 import Estrutura from '@features/estrutura/Estrutura';
 import heroBg from '@assets/logodefinitiva.png';
 import {
@@ -279,15 +279,15 @@ export default function Home() {
 
       <div className="section-divider" />
 
-      {/* <div id="carreiras">
-        <Careers />
-      </div> */}
-
       <div id="estrutura">
         <Estrutura />
       </div>
 
       <div className="section-divider" />
+
+      {/* <div id="carreiras">
+        <Careers />
+      </div> */}
 
       <div id="contato">
         <Contact />

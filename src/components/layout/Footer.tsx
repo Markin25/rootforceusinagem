@@ -15,7 +15,7 @@ const navLinks = [
   { label: 'Sobre', href: '#sobre' },
   { label: 'Serviços', href: '#servicos' },
   { label: 'Estrutura', href: '#estrutura' },
-  // { label: 'Carreiras', href: '#carreiras' },
+  // { label: 'Carreiras', href: '#carreiras' }, // pronto, mas ainda não vai ao ar
   { label: 'Contato', href: '#contato' },
 ];
 

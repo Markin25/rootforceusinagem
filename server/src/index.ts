@@ -162,8 +162,8 @@ function getTransporter(): nodemailer.Transporter {
       greetingTimeout: 15000,
       socketTimeout: 20000,
 
-      logger: true,
-      debug: true,
+      logger: process.env.NODE_ENV !== 'production',
+      debug: process.env.NODE_ENV !== 'production',
     });
 
     _transporter.verify((err, success) => {
@@ -177,6 +177,10 @@ function getTransporter(): nodemailer.Transporter {
 
   return _transporter;
 }
+
+// Live production URL — rootforceusinagem.com.br is not registered/resolving yet;
+// override via SITE_URL once the custom domain is live.
+const SITE_URL = process.env.SITE_URL ?? 'https://rootforceusinagem.vercel.app';
 
 async function sendContactEmails(data: ContactPayload): Promise<void> {
   const sName    = escapeHtml(data.name);
@@ -340,7 +344,7 @@ async function sendContactEmails(data: ContactPayload): Promise<void> {
 <tr><td class="ep" align="center" style="padding:6px 40px 36px;background-color:#070707;">
   <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center"><tr>
     <td style="padding-right:12px;"><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://wa.me/5541988041664" style="height:44px;v-text-anchor:middle;width:182px;" arcsize="23%" strokecolor="#1e1e1e" fillcolor="#111"><w:anchorlock/><center style="color:#fff;font-family:Arial;font-size:13px;font-weight:700;">WhatsApp</center></v:roundrect><![endif]--><!--[if !mso]><!--><a href="https://wa.me/5541988041664" target="_blank" style="display:inline-block;padding:15px 26px;background-color:#111111;border:1px solid rgba(37,211,102,0.45);border-radius:10px;color:#FFFFFF;font-size:14px;font-weight:700;font-family:Arial,sans-serif;text-decoration:none;letter-spacing:0.3px;">&#128172; Falar no WhatsApp</a><!--<![endif]--></td>
-    <td><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://rootforceusinagem.com.br" style="height:50px;v-text-anchor:middle;width:196px;" arcsize="20%" strokecolor="#D4AF37" fillcolor="#D4AF37"><w:anchorlock/><center style="color:#000;font-family:Arial;font-size:14px;font-weight:700;">Nosso site</center></v:roundrect><![endif]--><!--[if !mso]><!--><a href="https://rootforceusinagem.com.br" target="_blank" style="display:inline-block;padding:15px 26px;background:linear-gradient(135deg,#D4AF37 0%,#B8960C 100%);border-radius:10px;color:#000000;font-size:14px;font-weight:700;font-family:Arial,sans-serif;text-decoration:none;letter-spacing:0.3px;">&#8594; Conhecer nosso site</a><!--<![endif]--></td>
+    <td><!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${SITE_URL}" style="height:50px;v-text-anchor:middle;width:196px;" arcsize="20%" strokecolor="#D4AF37" fillcolor="#D4AF37"><w:anchorlock/><center style="color:#000;font-family:Arial;font-size:14px;font-weight:700;">Nosso site</center></v:roundrect><![endif]--><!--[if !mso]><!--><a href="${SITE_URL}" target="_blank" style="display:inline-block;padding:15px 26px;background:linear-gradient(135deg,#D4AF37 0%,#B8960C 100%);border-radius:10px;color:#000000;font-size:14px;font-weight:700;font-family:Arial,sans-serif;text-decoration:none;letter-spacing:0.3px;">&#8594; Conhecer nosso site</a><!--<![endif]--></td>
   </tr></table>
 </td></tr>
 <!-- Signature -->
@@ -398,12 +402,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
 // ── CORS ── origin required in production; dev allows no-origin (Postman) ──
+// Scoped to /api/contato only — /api/health must stay reachable without an
+// Origin header so uptime monitors (and Render's own health checks) don't 500.
 const allowedOrigins = (process.env.ALLOWED_ORIGIN ?? 'http://localhost:5173')
   .split(',')
   .map((o) => o.trim())
   .filter(Boolean);
 
-app.use(cors({
+app.use('/api/contato', cors({
   origin: (origin, cb) => {
     if (!origin) {
       if (process.env.NODE_ENV === 'production') { cb(new Error('Origin required')); return; }
@@ -415,7 +421,7 @@ app.use(cors({
       cb(new Error('CORS: origin not allowed'));
     }
   },
-  methods: ['POST', 'GET', 'OPTIONS'],
+  methods: ['POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
   maxAge: 86400,
 }));

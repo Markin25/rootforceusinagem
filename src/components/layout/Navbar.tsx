@@ -2,7 +2,8 @@ import { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { Home as HomeIcon, CircleHelp, Wrench, Phone, Briefcase, Building } from 'lucide-react';
+import { Home as HomeIcon, CircleHelp, Wrench, Phone, Building } from 'lucide-react';
+// Briefcase fica pronto para quando a Carreiras voltar a ficar ativa
 import { prefersReducedMotion } from '@/animations';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,13 +17,12 @@ export default function Navbar() {
     { href: '#sobre', label: 'Quem somos', Icon: CircleHelp },
     { href: '#servicos', label: 'Serviços', Icon: Wrench },
     { href: '#estrutura', label: 'Estrutura', Icon: Building },
-    // { href: '#carreiras', label: 'Carreiras', Icon: Briefcase },
+    // { href: '#carreiras', label: 'Carreiras', Icon: Briefcase }, // pronto, mas ainda não vai ao ar
     { href: '#contato', label: 'Contato', Icon: Phone },
   ];
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
-  const navContainerRef = useRef<HTMLElement>(null);
   const itemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useGSAP(() => {
@@ -56,7 +56,7 @@ export default function Navbar() {
     });
 
     // Active section detection
-    const sections = ['top', 'sobre', 'servicos', /* 'carreiras', */ 'estrutura', 'contato'];
+    const sections = ['top', 'sobre', 'servicos', 'estrutura', /* 'carreiras', */ 'contato'];
     
     sections.forEach((section) => {
       const el = document.getElementById(section);

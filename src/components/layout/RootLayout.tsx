@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { initReveal } from '@lib/reveal';
 import Navbar from '@layout/Navbar';
@@ -7,6 +7,7 @@ import SplashScreen from '@layout/SplashScreen';
 
 export default function RootLayout() {
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const done = () => setLoading(false);
@@ -21,6 +22,17 @@ export default function RootLayout() {
   useEffect(() => {
     initReveal();
   }, []);
+
+  // Scrolls to the matching section whenever the URL carries a hash — covers
+  // both nav clicks and redirects from legacy routes like /servicos → /#servicos.
+  useEffect(() => {
+    if (!location.hash) return;
+    const id = location.hash.slice(1);
+    const t = setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+    return () => clearTimeout(t);
+  }, [location]);
 
   return (
     <div className="min-h-dvh flex flex-col">

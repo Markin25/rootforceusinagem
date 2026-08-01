@@ -1,22 +1,23 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RootLayout from '@layout/RootLayout';
 import Home from '@features/home/Home';
-import Services from '@features/services/Services';
-import About from '@features/about/About';
-import Contact from '@features/contact/Contact';
-// import Careers from '@features/careers/Careers';
 import NotFound from '@pages/NotFound';
 
+// Rootforce is a single-page site — all content lives on Home as anchor
+// sections. These legacy paths only exist to redirect anyone with an old
+// bookmark, shared link, or indexed search result to the right section
+// instead of rendering a stale standalone page.
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'servicos', element: <Services /> },
-      { path: 'sobre', element: <About /> },
-      { path: 'contato', element: <Contact /> },
-      // { path: 'carreiras', element: <Careers /> },
+      { path: 'servicos', element: <Navigate to="/#servicos" replace /> },
+      { path: 'sobre', element: <Navigate to="/#sobre" replace /> },
+      { path: 'contato', element: <Navigate to="/#contato" replace /> },
+      // Carreiras ainda não está ativa no site — redireciona para a home
+      { path: 'carreiras', element: <Navigate to="/" replace /> },
       { path: '*', element: <NotFound /> },
     ],
   },

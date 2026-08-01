@@ -315,7 +315,7 @@ export default function ServicesPortfolio() {
                 {portfolioItems[lightboxIndex].title}
               </span>
               <span className="text-xs text-gray-600">
-                {lightboxIndex + 1} / {portfolioItems.length}
+                {lightboxIndex + 1} / {portfolioItems.length}
               </span>
             </div>
           </div>
